@@ -13,12 +13,15 @@
 
 #include <SDL2/SDL.h>
 
+#include "FPSLimiter.hpp"
+
 Game* Game::__instance = nullptr;
 
 Game::Game()
 {
 	this->window = nullptr;
 	this->renderer = nullptr;
+	this->isRunning = false;
 }
 
 int Game::init()
@@ -78,9 +81,12 @@ int Game::run()
 #if __EMSCRIPTEN__
 	emscripten_set_main_loop(Game::thunk, 0, 1);
 #else
+	FPSLimiter limiter(60); // TODO: automatically detect the refresh rate of the monitor.
 	while (this->isRunning)
 	{
 		Game::thunk();
+
+		limiter.run();
 	}
 #endif
 
@@ -91,6 +97,14 @@ int Game::run()
 
 inline void Game::thunk()
 {
+	if (!this->isRunning)
+	{
+#ifdef __EMSCRIPTEN__
+		emscripten_cancel_main_loop();
+#endif
+		return;
+	}
+
 	this->handleInput();
 	this->update();
 	this->render();
