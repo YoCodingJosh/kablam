@@ -26,6 +26,13 @@ Game::Game()
 
 int Game::init()
 {
+	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+	{
+		std::cerr << "Failed to initialize SDL! SDL says: " << SDL_GetError() << "\n";
+
+		return -1;
+	}
+
 	this->window = SDL_CreateWindow("Kablam!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 960, SDL_WINDOW_SHOWN);
 
 	if (this->window == nullptr)
@@ -64,6 +71,8 @@ void Game::quit()
 	{
 		SDL_DestroyWindow(this->window);
 	}
+
+	SDL_Quit();
 }
 
 int Game::run()
