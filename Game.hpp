@@ -9,6 +9,8 @@
 
 #pragma once
 
+#include "GameState.hpp"
+
 struct SDL_Window;
 struct SDL_Renderer;
 
@@ -22,6 +24,8 @@ private:
 	SDL_Renderer* renderer;
 
 	bool isRunning;
+
+	GameState currentState;
 
 	int init();
 	void quit();
@@ -44,4 +48,6 @@ public:
 	}
 
 	int run();
+
+	inline GameState getState() const { return this->currentState; }
 };

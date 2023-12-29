@@ -22,6 +22,7 @@ Game::Game()
 	this->window = nullptr;
 	this->renderer = nullptr;
 	this->isRunning = false;
+	this->currentState = GameState::INIT;
 }
 
 int Game::init()
@@ -77,6 +78,11 @@ void Game::quit()
 
 int Game::run()
 {
+	if (this->isRunning)
+	{
+		return 69;
+	}
+
 	auto exitCode = this->init();
 
 	if (exitCode != 0)
@@ -88,12 +94,12 @@ int Game::run()
 	this->isRunning = true;
 
 #if __EMSCRIPTEN__
-	emscripten_set_main_loop(Game::thunk, 0, 1);
+	emscripten_set_main_loop([this]() { this->thunk(); }, 0, 1);
 #else
 	FPSLimiter limiter(60); // TODO: automatically detect the refresh rate of the monitor.
 	while (this->isRunning)
 	{
-		Game::thunk();
+		this->thunk();
 
 		limiter.run();
 	}
@@ -136,7 +142,12 @@ inline void Game::handleInput()
 
 inline void Game::update()
 {
-
+	switch (this->currentState)
+	{
+		case GameState::INIT:
+			this->currentState = GameState::MENU;
+			break;
+	}
 }
 
 inline void Game::render()
