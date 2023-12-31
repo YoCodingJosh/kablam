@@ -23,6 +23,7 @@ Game::Game()
 	this->renderer = nullptr;
 	this->isRunning = false;
 	this->currentState = GameState::INIT;
+	this->menu = nullptr;
 }
 
 int Game::init()
@@ -118,7 +119,7 @@ inline void Game::thunk()
 		emscripten_cancel_main_loop();
 #endif
 		return;
-	}
+}
 
 	this->handleInput();
 	this->update();
@@ -137,6 +138,18 @@ inline void Game::handleInput()
 			this->isRunning = false;
 			break;
 		}
+
+		switch (this->currentState)
+		{
+		case GameState::INIT:
+			break;
+		case GameState::MENU:
+			if (this->menu != nullptr)
+			{
+				this->menu->handleInput();
+			}
+			break;
+		}
 	}
 }
 
@@ -144,9 +157,17 @@ inline void Game::update()
 {
 	switch (this->currentState)
 	{
-		case GameState::INIT:
-			this->currentState = GameState::MENU;
-			break;
+	case GameState::INIT:
+		this->currentState = GameState::MENU;
+		break;
+	case GameState::MENU:
+		if (this->menu == nullptr)
+		{
+			this->menu = new Menu();
+		}
+
+		this->menu->update();
+		break;
 	}
 }
 
@@ -154,6 +175,18 @@ inline void Game::render()
 {
 	SDL_SetRenderDrawColor(this->renderer, 0, 0, 0, 255);
 	SDL_RenderClear(this->renderer);
+
+	switch (this->currentState)
+	{
+	case GameState::INIT:
+		break;
+	case GameState::MENU:
+		if (this->menu != nullptr)
+		{
+			this->menu->render(this->renderer);
+		}
+		break;
+	}
 
 	SDL_RenderPresent(this->renderer);
 }

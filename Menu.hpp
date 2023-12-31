@@ -9,6 +9,8 @@
 
 #pragma once
 
+struct SDL_Renderer;
+
 class Menu
 {
 private:
@@ -18,5 +20,5 @@ public:
 
 	void handleInput();
 	void update();
-	void render();
+	void render(SDL_Renderer* renderer);
 };

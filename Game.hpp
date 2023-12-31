@@ -11,6 +11,8 @@
 
 #include "GameState.hpp"
 
+#include "Menu.hpp"
+
 struct SDL_Window;
 struct SDL_Renderer;
 
@@ -35,6 +37,8 @@ private:
 	void handleInput();
 	void update();
 	void render();
+
+	Menu* menu;
 
 public:
 	inline static Game* get()
