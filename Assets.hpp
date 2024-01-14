@@ -9,6 +9,7 @@
 
 #pragma once
 
+struct SDL_Renderer;
 struct SDL_Texture;
 struct _TTF_Font;
 typedef _TTF_Font TTF_Font;
@@ -16,22 +17,21 @@ typedef _TTF_Font TTF_Font;
 #include <string>
 #include <map>
 
-class Assets
+class Assets final
 {
+	friend class Game;
 private:
-	std::map<std::string, SDL_Texture*> textures;
-	std::map<std::string, TTF_Font*> fonts;
+	static TTF_Font* defaultFont;
+	static std::map<std::string, SDL_Texture*> textures;
+
+	static void destroyTexture(const std::string& name);
+	static void destroyFont(const std::string& name);
+
+	static bool loadAssets(SDL_Renderer* renderer);
+	static void unloadAssets();
 
 public:
-	Assets();
-	~Assets();
+	inline static TTF_Font* getDefaultFont() noexcept { return defaultFont; }
 
-	SDL_Texture* loadTexture(const std::string& path);
-	TTF_Font* loadFont(const std::string& path, int size);
-
-	SDL_Texture* getTexture(const std::string& name);
-	TTF_Font* getFont(const std::string& name);
-
-	void destroyTexture(const std::string& name);
-	void destroyFont(const std::string& name);
+	static SDL_Texture* getTexture(const std::string& name);
 };

@@ -12,8 +12,13 @@
 #include <iostream>
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
 
 #include "FPSLimiter.hpp"
+
+#include "Assets.hpp"
 
 Game* Game::__instance = nullptr;
 
@@ -59,11 +64,60 @@ int Game::init()
 		return -3;
 	}
 
+	if (TTF_Init() != 0)
+	{
+		std::cerr << "Failed to initialize SDL_ttf! SDL_ttf says: " << TTF_GetError() << "\n";
+
+		return -4;
+	}
+
+	if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG)
+	{
+		std::cerr << "Failed to initialize SDL_image! SDL_image says: " << IMG_GetError() << "\n";
+
+		return -5;
+	}
+
+	if (Mix_Init(MIX_INIT_OGG) != MIX_INIT_OGG)
+	{
+		std::cerr << "Failed to initialize SDL_mixer! SDL_mixer says: " << Mix_GetError() << "\n";
+
+		return -6;
+	}
+
+	if (Mix_OpenAudio(44100, AUDIO_F32SYS, 2, 2048) != 0)
+	{
+		std::cerr << "Failed to initialize SDL_mixer! SDL_mixer says: " << Mix_GetError() << "\n";
+
+		return -61;
+	}
+
+	if (!Assets::loadAssets(this->renderer))
+	{
+		std::cerr << "Failed to load assets!\n";
+
+		return -7;
+	}
+
 	return 0;
 }
 
 void Game::quit()
 {
+	if (this->menu != nullptr)
+	{
+		delete this->menu;
+	}
+
+	Assets::unloadAssets();
+
+	Mix_CloseAudio();
+	Mix_Quit();
+
+	IMG_Quit();
+
+	TTF_Quit();
+
 	if (this->renderer != nullptr)
 	{
 		SDL_DestroyRenderer(this->renderer);
@@ -97,7 +151,16 @@ int Game::run()
 #if __EMSCRIPTEN__
 	emscripten_set_main_loop([this]() { this->thunk(); }, 0, 1);
 #else
-	FPSLimiter limiter(60); // TODO: automatically detect the refresh rate of the monitor.
+	// Get the current monitor's refresh rate and set the target FPS to that.
+	SDL_DisplayMode dm;
+	int displayIndex = SDL_GetWindowDisplayIndex(this->window);
+	int numDisplayModes = SDL_GetNumDisplayModes(displayIndex);
+	SDL_GetDesktopDisplayMode(displayIndex, &dm);
+
+	auto refreshRate = dm.refresh_rate != 0 ? dm.refresh_rate : 60;
+
+	FPSLimiter limiter(refreshRate);
+
 	while (this->isRunning)
 	{
 		this->thunk();
@@ -119,7 +182,7 @@ inline void Game::thunk()
 		emscripten_cancel_main_loop();
 #endif
 		return;
-}
+	}
 
 	this->handleInput();
 	this->update();
