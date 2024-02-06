@@ -40,6 +40,8 @@ private:
 
 	Menu* menu;
 
+	bool __isTouchAvailable;
+
 public:
 	inline static Game* get()
 	{
@@ -53,5 +55,7 @@ public:
 
 	int run();
 
-	inline GameState getState() const { return this->currentState; }
+	inline GameState getState() const noexcept { return this->currentState; }
+
+	inline bool isTouchAvailable() const noexcept { return this->__isTouchAvailable; }
 };

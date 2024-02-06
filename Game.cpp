@@ -19,6 +19,7 @@
 #include "FPSLimiter.hpp"
 
 #include "Assets.hpp"
+#include "Constants.hpp"
 
 Game* Game::__instance = nullptr;
 
@@ -29,6 +30,7 @@ Game::Game()
 	this->isRunning = false;
 	this->currentState = GameState::INIT;
 	this->menu = nullptr;
+	this->__isTouchAvailable = false;
 }
 
 int Game::init()
@@ -40,7 +42,7 @@ int Game::init()
 		return -1;
 	}
 
-	this->window = SDL_CreateWindow("Kablam!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 960, SDL_WINDOW_SHOWN);
+	this->window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 
 	if (this->window == nullptr)
 	{
@@ -147,6 +149,9 @@ int Game::run()
 	}
 
 	this->isRunning = true;
+
+	// Detect if touch input is available
+	this->__isTouchAvailable = SDL_GetNumTouchDevices() > 0;
 
 #if __EMSCRIPTEN__
 	emscripten_set_main_loop([this]() { this->thunk(); }, 0, 1);

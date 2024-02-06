@@ -10,10 +10,18 @@
 #pragma once
 
 struct SDL_Renderer;
+struct SDL_Texture;
 
 class Menu
 {
 private:
+	SDL_Texture* titleTextTexture;
+	int titleTextWidth;
+	int titleTextHeight;
+
+	SDL_Texture* copyrightTextTexture;
+	int copyrightTextWidth;
+	int copyrightTextHeight;
 public:
 	Menu();
 	~Menu();
