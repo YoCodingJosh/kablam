@@ -1,3 +1,12 @@
+/**
+ * @file Constants.hpp
+ * @brief Global constants for the game.
+ * @author Josh Kennedy
+ *
+ * Kablam!
+ * Copyright (C) 2024 Josh Kennedy.
+ */
+
 #pragma once
 
 constexpr auto GAME_TITLE = "Kablam!";
