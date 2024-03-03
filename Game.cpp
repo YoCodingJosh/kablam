@@ -89,7 +89,7 @@ int Game::init()
 
 	if (Mix_OpenAudio(44100, AUDIO_F32SYS, 2, 2048) != 0)
 	{
-		std::cerr << "Failed to initialize SDL_mixer! SDL_mixer says: " << Mix_GetError() << "\n";
+		std::cerr << "Failed to open audio device! SDL_mixer says: " << Mix_GetError() << "\n";
 
 		return -61;
 	}
