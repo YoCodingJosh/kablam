@@ -24,11 +24,10 @@ private:
 	static TTF_Font* defaultFont;
 	static std::map<std::string, SDL_Texture*> textures;
 
-	static void destroyTexture(const std::string& name);
-	static void destroyFont(const std::string& name);
-
 	static bool loadAssets(SDL_Renderer* renderer);
 	static void unloadAssets();
+
+	static bool loadTexture(SDL_Renderer* renderer, const std::string& name, const std::string& path);
 
 public:
 	inline static TTF_Font* getDefaultFont() noexcept { return defaultFont; }

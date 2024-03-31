@@ -22,6 +22,8 @@ private:
 	SDL_Texture* copyrightTextTexture;
 	int copyrightTextWidth;
 	int copyrightTextHeight;
+
+	SDL_Texture* wallTexture;
 public:
 	Menu();
 	~Menu();

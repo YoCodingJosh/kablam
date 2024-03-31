@@ -12,12 +12,14 @@
 #include "GameState.hpp"
 
 #include "Menu.hpp"
+#include "Assets.hpp"
 
 struct SDL_Window;
 struct SDL_Renderer;
 
 class Game
 {
+	friend class Assets;
 private:
 	static Game* __instance;
 	Game();
