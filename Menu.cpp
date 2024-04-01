@@ -132,7 +132,4 @@ void Menu::render(SDL_Renderer* renderer)
 	SDL_RenderCopy(renderer, this->titleTextTexture, NULL, &titleDestRect);
 	SDL_RenderCopy(renderer, this->copyrightTextTexture, NULL, &copyrightDestRect);
 	SDL_RenderCopy(renderer, this->wallTexture, NULL, &wallDestRect);
-
-	// present the renderer
-	SDL_RenderPresent(renderer);
 }
