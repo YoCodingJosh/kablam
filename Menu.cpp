@@ -31,8 +31,10 @@ Menu::Menu()
 
 Menu::~Menu()
 {
-	// free the texture
+	// free the textures
 	SDL_DestroyTexture(titleTextTexture);
+	SDL_DestroyTexture(copyrightTextTexture);
+	SDL_DestroyTexture(wallTexture);
 }
 
 void Menu::handleInput()
