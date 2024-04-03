@@ -27,6 +27,15 @@ Menu::Menu()
 	this->titleTextHeight = 0;
 	this->copyrightTextWidth = 0;
 	this->copyrightTextHeight = 0;
+
+	// get the wall texture
+	this->wallTexture = Assets::getTexture(BRICK_WALL);
+
+	if (!this->wallTexture)
+	{
+		SDL_Log("Failed to get wall texture: %s", SDL_GetError());
+		return;
+	}
 }
 
 Menu::~Menu()
@@ -34,7 +43,8 @@ Menu::~Menu()
 	// free the textures
 	SDL_DestroyTexture(titleTextTexture);
 	SDL_DestroyTexture(copyrightTextTexture);
-	SDL_DestroyTexture(wallTexture);
+
+	// don't free the wall texture, it's a shared resource
 }
 
 void Menu::handleInput()
@@ -99,37 +109,13 @@ void Menu::render(SDL_Renderer* renderer)
 		return;
 	}
 
-	if (!this->wallTexture)
-	{
-		// get the wall texture
-		SDL_Texture* wallPiece = Assets::getTexture(BRICK_WALL);
-
-		int wallPieceWidth = 0;
-		int wallPieceHeight = 0;
-
-		// get the width and height of the wall piece
-		SDL_QueryTexture(wallPiece, NULL, NULL, &wallPieceWidth, &wallPieceHeight);
-
-		int skyboxHeight = titleTextHeight + 75;
-
-		// tile the wall piece across the screen to create a wall
-		for (int x = 0; x < SCREEN_WIDTH; x += wallPieceWidth)
-		{
-			for (int y = skyboxHeight; y < SCREEN_HEIGHT; y += wallPieceHeight)
-			{
-				SDL_Rect destRect = { x, y, wallPieceWidth, wallPieceHeight };
-				SDL_RenderCopy(renderer, wallPiece, NULL, &destRect);
-			}
-		}
-	}
-
 	// create the destination rectangle
 	SDL_Rect titleDestRect = { 10, 5, this->titleTextWidth, this->titleTextHeight };
 	SDL_Rect copyrightDestRect = { SCREEN_WIDTH - this->copyrightTextWidth - 10, 5, this->copyrightTextWidth, this->copyrightTextHeight };
 	SDL_Rect wallDestRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
 	// draw the textures
+	SDL_RenderCopy(renderer, this->wallTexture, NULL, &wallDestRect);
 	SDL_RenderCopy(renderer, this->titleTextTexture, NULL, &titleDestRect);
 	SDL_RenderCopy(renderer, this->copyrightTextTexture, NULL, &copyrightDestRect);
-	SDL_RenderCopy(renderer, this->wallTexture, NULL, &wallDestRect);
 }

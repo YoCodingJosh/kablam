@@ -35,7 +35,39 @@ bool Assets::loadAssets(SDL_Renderer* renderer)
 		return false;
 	}
 
-	Assets::loadTexture(renderer, BRICK_WALL, BRICK_WALL_SPRITE_FILE);
+	if (!Assets::loadTexture(renderer, BRICK_WALL_PIECE, BRICK_WALL_PIECE_SPRITE_FILE))
+	{
+		// we already logged the error in loadTexture
+		return false;
+	}
+
+	// Construct the wall used in both the menu and the game.
+	SDL_Texture* wallPiece = Assets::getTexture(BRICK_WALL_PIECE);
+
+	int skyboxHeight = 145; // arbitrary height for the skybox (roughly 4x the line height of the default font)
+
+	// create renderer for the wall texture
+	SDL_Texture* wallTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+	SDL_SetRenderTarget(renderer, wallTexture);
+
+	// clear the wall texture to a solid color (cornflower blue) for the skybox
+	SDL_SetRenderDrawColor(renderer, 100, 149, 237, 255);
+	SDL_RenderClear(renderer);
+
+	// tile the wall piece across the screen to create a wall
+	for (int x = 0; x < SCREEN_WIDTH; x += BRICK_WALL_PIECE_SPRITE_WIDTH)
+	{
+		for (int y = skyboxHeight; y < SCREEN_HEIGHT; y += BRICK_WALL_PIECE_SPRITE_HEIGHT)
+		{
+			SDL_Rect destRect = { x, y, BRICK_WALL_PIECE_SPRITE_WIDTH, BRICK_WALL_PIECE_SPRITE_HEIGHT };
+			SDL_RenderCopy(renderer, wallPiece, NULL, &destRect);
+		}
+	}
+
+	SDL_SetRenderTarget(renderer, nullptr);
+
+	Assets::textures.emplace(BRICK_WALL, wallTexture);
 
 	return true;
 }

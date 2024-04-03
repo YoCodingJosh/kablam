@@ -17,5 +17,9 @@ constexpr auto SCREEN_HEIGHT = 960;
 
 #define CAN_QUIT_GAME = !__EMSCRIPTEN__
 
+constexpr auto BRICK_WALL_PIECE = "BRICK_WALL_PIECE";
+constexpr auto BRICK_WALL_PIECE_SPRITE_FILE = "assets/wall128x128.png";
+constexpr auto BRICK_WALL_PIECE_SPRITE_WIDTH = 128;
+constexpr auto BRICK_WALL_PIECE_SPRITE_HEIGHT = 128;
+
 constexpr auto BRICK_WALL = "BRICK_WALL";
-constexpr auto BRICK_WALL_SPRITE_FILE = "assets/wall128x128.png";
