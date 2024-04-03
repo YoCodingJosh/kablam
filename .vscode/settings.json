@@ -1,4 +1,4 @@
 {
-    "C_Cpp.default.compileCommands": "/Users/josh/Documents/code/kablam/builddir/compile_commands.json",
+    "C_Cpp.default.compileCommands": "/home/josh/code/kablam/builddir/compile_commands.json",
     "C_Cpp.default.configurationProvider": "mesonbuild.mesonbuild"
 }
