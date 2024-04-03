@@ -62,4 +62,4 @@
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
 
-copy_assets.py -linguist-vendored
+copy-assets.py -linguist-vendored
