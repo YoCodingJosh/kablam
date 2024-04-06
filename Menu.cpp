@@ -41,8 +41,19 @@ Menu::Menu()
 Menu::~Menu()
 {
 	// free the textures
-	SDL_DestroyTexture(titleTextTexture);
-	SDL_DestroyTexture(copyrightTextTexture);
+	if (this->titleTextTexture)
+	{
+		SDL_DestroyTexture(titleTextTexture);
+
+		this->titleTextTexture = nullptr;
+	}
+
+	if (this->copyrightTextTexture)
+	{
+		SDL_DestroyTexture(copyrightTextTexture);
+
+		this->copyrightTextTexture = nullptr;
+	}
 
 	// don't free the wall texture, it's a shared resource
 }
