@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "mesonbuild.mesonbuild",
+        "ms-vscode.cpptools-extension-pack",
+        "ms-vscode.hexeditor",
+        "ms-vscode.makefile-tools",
+        "jeff-hykin.better-cpp-syntax",
+        "jeff-hykin.better-objcpp-syntax"
+    ]
+}
