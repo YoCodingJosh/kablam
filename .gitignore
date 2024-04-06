@@ -393,4 +393,10 @@ compile_commands.json
 
 # End of https://www.toptal.com/developers/gitignore/api/meson
 
-.vscode/settings.json
+.vscode/*
+!.vscode/settings.default.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
