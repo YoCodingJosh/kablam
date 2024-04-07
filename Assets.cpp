@@ -20,8 +20,10 @@
 #include "Constants.hpp"
 
 #define DEFAULT_FONT_PATH "assets/DotGothic16-Regular.ttf"
+#define MENU_FONT_PATH "assets/NotoSans-Regular.ttf"
 
 TTF_Font* Assets::defaultFont = nullptr;
+TTF_Font* Assets::menuFont = nullptr;
 
 std::map<std::string, SDL_Texture*> Assets::textures;
 
@@ -32,6 +34,14 @@ bool Assets::loadAssets(SDL_Renderer* renderer)
 	if (Assets::defaultFont == nullptr)
 	{
 		SDL_Log("Failed to load default font: %s", TTF_GetError());
+		return false;
+	}
+
+	Assets::menuFont = TTF_OpenFont(MENU_FONT_PATH, 24);
+
+	if (Assets::menuFont == nullptr)
+	{
+		SDL_Log("Failed to load menu font: %s", TTF_GetError());
 		return false;
 	}
 
