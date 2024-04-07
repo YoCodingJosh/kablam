@@ -22,6 +22,8 @@ class Assets final
 	friend class Game;
 private:
 	static TTF_Font* defaultFont;
+	static TTF_Font* menuFont;
+
 	static std::map<std::string, SDL_Texture*> textures;
 
 	static bool loadAssets(SDL_Renderer* renderer);
