@@ -217,13 +217,6 @@ inline void Game::handleInput()
 				this->menu->handleInput();
 			}
 			break;
-		case GameState::GAMEPLAY:
-			break;
-		default:
-			SDL_Log("Unhandled game state in handleInput call: %d", static_cast<int>(this->currentState));
-			[[fallthrough]];
-		case GameState::QUIT:
-			break;
 		}
 	}
 }
@@ -243,13 +236,6 @@ inline void Game::update()
 
 		this->menu->update();
 		break;
-	case GameState::GAMEPLAY:
-		break;
-	default:
-		SDL_Log("Unhandled game state in update call: %d", static_cast<int>(this->currentState));
-		[[fallthrough]];
-	case GameState::QUIT:
-		break;
 	}
 }
 
@@ -267,13 +253,6 @@ inline void Game::render()
 		{
 			this->menu->render(this->renderer);
 		}
-		break;
-	case GameState::GAMEPLAY:
-		break;
-	default:
-		SDL_Log("Unhandled game state in render call: %d", static_cast<int>(this->currentState));
-		[[fallthrough]];
-	case GameState::QUIT:
 		break;
 	}
 
