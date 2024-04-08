@@ -11,6 +11,7 @@
 
 struct SDL_Renderer;
 struct SDL_Texture;
+union SDL_Event;
 
 class Gameplay
 {
@@ -21,7 +22,7 @@ public:
 	Gameplay();
 	~Gameplay();
 
-	void handleInput();
+	void handleInput(SDL_Event& e);
 	void update();
 	void render(SDL_Renderer* renderer);
 };

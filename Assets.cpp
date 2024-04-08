@@ -130,3 +130,8 @@ SDL_Texture* Assets::getTexture(const std::string& name)
 
 	return Assets::textures[name];
 }
+
+TTF_Font* Assets::getMenuFontCopy()
+{
+	return TTF_OpenFont(MENU_FONT_PATH, 24);
+}

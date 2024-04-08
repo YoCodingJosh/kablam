@@ -12,10 +12,13 @@
 #include "GameState.hpp"
 
 #include "Menu.hpp"
+#include "Gameplay.hpp"
+
 #include "Assets.hpp"
 
 struct SDL_Window;
 struct SDL_Renderer;
+union SDL_Event;
 
 class Game
 {
@@ -41,6 +44,7 @@ private:
 	void render();
 
 	Menu* menu;
+	Gameplay* gameplay;
 
 	bool __isTouchAvailable;
 
@@ -58,6 +62,7 @@ public:
 	int run();
 
 	inline GameState getState() const noexcept { return this->currentState; }
+	inline void setState(GameState state) noexcept { this->currentState = state; }
 
 	inline bool isTouchAvailable() const noexcept { return this->__isTouchAvailable; }
 };

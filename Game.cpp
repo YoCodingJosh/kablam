@@ -31,6 +31,7 @@ Game::Game()
 	this->currentState = GameState::INIT;
 	this->menu = nullptr;
 	this->__isTouchAvailable = false;
+	this->gameplay = nullptr;
 }
 
 int Game::init()
@@ -214,10 +215,14 @@ inline void Game::handleInput()
 		case GameState::MENU:
 			if (this->menu != nullptr)
 			{
-				this->menu->handleInput();
+				this->menu->handleInput(event);
 			}
 			break;
 		case GameState::GAMEPLAY:
+			if (this->gameplay != nullptr)
+			{
+				this->gameplay->handleInput(event);
+			}
 			break;
 		default:
 			SDL_Log("Unhandled game state in handleInput call: %d", static_cast<int>(this->currentState));
@@ -244,6 +249,12 @@ inline void Game::update()
 		this->menu->update();
 		break;
 	case GameState::GAMEPLAY:
+		if (this->gameplay == nullptr)
+		{
+			this->gameplay = new Gameplay();
+		}
+
+		this->gameplay->update();
 		break;
 	default:
 		SDL_Log("Unhandled game state in update call: %d", static_cast<int>(this->currentState));
@@ -269,6 +280,10 @@ inline void Game::render()
 		}
 		break;
 	case GameState::GAMEPLAY:
+		if (this->gameplay != nullptr)
+		{
+			this->gameplay->render(this->renderer);
+		}
 		break;
 	default:
 		SDL_Log("Unhandled game state in render call: %d", static_cast<int>(this->currentState));

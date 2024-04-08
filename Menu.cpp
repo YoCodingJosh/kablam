@@ -14,6 +14,9 @@
 
 #include "Assets.hpp"
 #include "Constants.hpp"
+#include "Game.hpp"
+#include "GameState.hpp"
+#include "Utility.hpp"
 
 Menu::Menu()
 {
@@ -21,12 +24,15 @@ Menu::Menu()
 	this->titleTextTexture = nullptr;
 	this->copyrightTextTexture = nullptr;
 	this->wallTexture = nullptr;
+	this->promptTextTexture = nullptr;
 
 	// initialize the widths and heights
 	this->titleTextWidth = 0;
 	this->titleTextHeight = 0;
 	this->copyrightTextWidth = 0;
 	this->copyrightTextHeight = 0;
+	this->promptTextWidth = 0;
+	this->promptTextHeight = 0;
 
 	// get the wall texture
 	this->wallTexture = Assets::getTexture(BRICK_WALL);
@@ -55,12 +61,32 @@ Menu::~Menu()
 		this->copyrightTextTexture = nullptr;
 	}
 
+	if (this->promptTextTexture)
+	{
+		SDL_DestroyTexture(promptTextTexture);
+
+		this->promptTextTexture = nullptr;
+	}
+
 	// don't free the wall texture, it's a shared resource
 }
 
-void Menu::handleInput()
+void Menu::handleInput(SDL_Event& e)
 {
-
+	// TODO: This is a temporary implementation. We will need to add more input handling logic here.
+	if (e.type == SDL_KEYDOWN)
+	{
+		if (e.key.keysym.sym == SDLK_RETURN)
+		{
+			// switch to the gameplay state
+			Game::get()->setState(GameState::GAMEPLAY);
+		}
+	}
+	if (e.type == SDL_MOUSEBUTTONDOWN)
+	{
+		// switch to the gameplay state
+		Game::get()->setState(GameState::GAMEPLAY);
+	}
 }
 
 void Menu::update()
@@ -114,9 +140,27 @@ void Menu::render(SDL_Renderer* renderer)
 		SDL_QueryTexture(this->copyrightTextTexture, NULL, NULL, &this->copyrightTextWidth, &this->copyrightTextHeight);
 	}
 
-	if (!this->titleTextTexture)
+	if (!this->copyrightTextTexture)
 	{
 		SDL_Log("Failed to create copyright text texture: %s", SDL_GetError());
+		return;
+	}
+
+	if (!this->promptTextTexture)
+	{
+		// get the font
+		TTF_Font* font = Assets::getMenuFont();
+
+		// create the text texture
+		this->promptTextTexture = renderTextWithOutline(renderer, "Press Enter to Play");
+
+		// get the width and height of the texture
+		SDL_QueryTexture(this->promptTextTexture, NULL, NULL, &this->promptTextWidth, &this->promptTextHeight);
+	}
+
+	if (!this->promptTextTexture)
+	{
+		SDL_Log("Failed to create prompt text texture: %s", SDL_GetError());
 		return;
 	}
 
@@ -124,9 +168,11 @@ void Menu::render(SDL_Renderer* renderer)
 	SDL_Rect titleDestRect = { 10, 5, this->titleTextWidth, this->titleTextHeight };
 	SDL_Rect copyrightDestRect = { SCREEN_WIDTH - this->copyrightTextWidth - 10, 5, this->copyrightTextWidth, this->copyrightTextHeight };
 	SDL_Rect wallDestRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+	SDL_Rect promptDestRect = { SCREEN_WIDTH / 2 - this->promptTextWidth / 2, SCREEN_HEIGHT - this->promptTextHeight - 10, this->promptTextWidth, this->promptTextHeight };
 
 	// draw the textures
 	SDL_RenderCopy(renderer, this->wallTexture, NULL, &wallDestRect);
 	SDL_RenderCopy(renderer, this->titleTextTexture, NULL, &titleDestRect);
 	SDL_RenderCopy(renderer, this->copyrightTextTexture, NULL, &copyrightDestRect);
+	SDL_RenderCopy(renderer, this->promptTextTexture, NULL, &promptDestRect);
 }

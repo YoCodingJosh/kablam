@@ -33,6 +33,8 @@ private:
 
 public:
 	inline static TTF_Font* getDefaultFont() noexcept { return defaultFont; }
+	inline static TTF_Font* getMenuFont() noexcept { return menuFont; }
+	static TTF_Font* getMenuFontCopy(); // this is for renderTextWithOutline functions to use lol
 
 	static SDL_Texture* getTexture(const std::string& name);
 };

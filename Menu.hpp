@@ -11,6 +11,7 @@
 
 struct SDL_Renderer;
 struct SDL_Texture;
+union SDL_Event;
 
 class Menu
 {
@@ -24,11 +25,15 @@ private:
 	int copyrightTextHeight;
 
 	SDL_Texture* wallTexture;
+
+	SDL_Texture* promptTextTexture;
+	int promptTextWidth;
+	int promptTextHeight;
 public:
 	Menu();
 	~Menu();
 
-	void handleInput();
+	void handleInput(SDL_Event& e);
 	void update();
 	void render(SDL_Renderer* renderer);
 };

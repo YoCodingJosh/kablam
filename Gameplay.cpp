@@ -38,3 +38,23 @@ Gameplay::~Gameplay()
 
 	// We don't need to destroy the wall texture because it is managed by the Assets class.
 }
+
+void Gameplay::handleInput(SDL_Event& e)
+{
+	// Handle input here.
+}
+
+void Gameplay::update()
+{
+	// Update the game logic here.
+}
+
+void Gameplay::render(SDL_Renderer* renderer)
+{
+	if (this->wallTexture)
+	{
+		SDL_Rect wallRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+
+		SDL_RenderCopy(renderer, this->wallTexture, nullptr, &wallRect);
+	}
+}
