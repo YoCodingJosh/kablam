@@ -60,6 +60,11 @@ int Game::init()
 
 	this->renderer = SDL_CreateRenderer(this->window, -1, renderFlags);
 
+	SDL_RendererInfo rendererInfo;
+	SDL_GetRendererInfo(this->renderer, &rendererInfo);
+
+	std::cout << "Using renderer: " << rendererInfo.name << std::endl;
+
 	if (this->renderer == nullptr)
 	{
 		std::cerr << "Failed to create the renderer! SDL says: " << SDL_GetError() << "\n";
