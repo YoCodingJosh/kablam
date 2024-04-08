@@ -23,6 +23,6 @@ public:
 	~Gameplay();
 
 	void handleInput(SDL_Event& e);
-	void update();
+	void update(double deltaTime);
 	void render(SDL_Renderer* renderer);
 };

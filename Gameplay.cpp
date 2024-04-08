@@ -44,7 +44,7 @@ void Gameplay::handleInput(SDL_Event& e)
 	// Handle input here.
 }
 
-void Gameplay::update()
+void Gameplay::update(double deltaTime)
 {
 	// Update the game logic here.
 }

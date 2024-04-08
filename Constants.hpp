@@ -14,6 +14,9 @@ constexpr auto GAME_COPYRIGHT = "Copyright \xA9 2024 Josh Kennedy";
 constexpr auto SCREEN_WIDTH = 1280;
 constexpr auto SCREEN_HEIGHT = 960;
 
+constexpr auto TARGET_FRAME_RATE = 60;
+constexpr auto TARGET_FRAME_TIME = 1 / TARGET_FRAME_RATE;
+
 #define CAN_QUIT_GAME = !__EMSCRIPTEN__
 
 constexpr auto BRICK_WALL_PIECE = "BRICK_WALL_PIECE";

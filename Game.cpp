@@ -43,7 +43,7 @@ int Game::init()
 		return -1;
 	}
 
-	this->window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+	this->window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_UTILITY);
 
 	if (this->window == nullptr)
 	{
@@ -190,8 +190,11 @@ inline void Game::thunk()
 		return;
 	}
 
+	// TODO: Should we even call this if we're Emscripten?
+	double delta = this->calculateDeltaTime();
+
 	this->handleInput();
-	this->update();
+	this->update(delta);
 	this->render();
 }
 
@@ -233,7 +236,7 @@ inline void Game::handleInput()
 	}
 }
 
-inline void Game::update()
+inline void Game::update(double deltaTime)
 {
 	switch (this->currentState)
 	{
@@ -246,7 +249,7 @@ inline void Game::update()
 			this->menu = new Menu();
 		}
 
-		this->menu->update();
+		this->menu->update(deltaTime);
 		break;
 	case GameState::GAMEPLAY:
 		if (this->gameplay == nullptr)
@@ -254,7 +257,7 @@ inline void Game::update()
 			this->gameplay = new Gameplay();
 		}
 
-		this->gameplay->update();
+		this->gameplay->update(deltaTime);
 		break;
 	default:
 		SDL_Log("Unhandled game state in update call: %d", static_cast<int>(this->currentState));

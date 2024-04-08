@@ -89,7 +89,7 @@ void Menu::handleInput(SDL_Event& e)
 	}
 }
 
-void Menu::update()
+void Menu::update(double deltaTime)
 {
 }
 
@@ -148,9 +148,6 @@ void Menu::render(SDL_Renderer* renderer)
 
 	if (!this->promptTextTexture)
 	{
-		// get the font
-		TTF_Font* font = Assets::getMenuFont();
-
 		// create the text texture
 		this->promptTextTexture = renderTextWithOutline(renderer, "Press Enter to Play");
 
