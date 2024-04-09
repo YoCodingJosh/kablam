@@ -9,6 +9,8 @@
 
 #pragma once
 
+#include "Timer.hpp"
+
 struct SDL_Renderer;
 struct SDL_Texture;
 union SDL_Event;
@@ -18,6 +20,10 @@ class Gameplay
 private:
 	SDL_Texture* badGuyTexture;
 	SDL_Texture* wallTexture;
+	unsigned int score;
+	
+	int badGuyPosition; // TODO: move this to a bad guy class.
+	Timer* badGuyPositionTimer; // TODO: also move this to a bad guy class.
 public:
 	Gameplay();
 	~Gameplay();

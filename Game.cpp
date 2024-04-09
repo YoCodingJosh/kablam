@@ -117,6 +117,11 @@ void Game::quit()
 		delete this->menu;
 	}
 
+	if (this->gameplay != nullptr)
+	{
+		delete this->gameplay;
+	}
+
 	Assets::unloadAssets();
 
 	Mix_CloseAudio();

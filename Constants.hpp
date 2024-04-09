@@ -25,3 +25,12 @@ constexpr auto BRICK_WALL_PIECE_SPRITE_WIDTH = 128;
 constexpr auto BRICK_WALL_PIECE_SPRITE_HEIGHT = 128;
 
 constexpr auto BRICK_WALL = "BRICK_WALL";
+
+constexpr auto SKYBOX_HEIGHT = 160; // arbitrary height for the skybox (roughly 4x the line height of the default font)
+
+constexpr auto BAD_GUY_SPRITE = "BAD_GUY";
+//constexpr auto BAD_GUY_SPRITE_FILE = "assets/badguy.png";
+constexpr auto BAD_GUY_SPRITE_WIDTH = 100;
+constexpr auto BAD_GUY_SPRITE_HEIGHT = 100;
+constexpr auto BAD_GUY_MAX_X_POS = SCREEN_WIDTH - BAD_GUY_SPRITE_WIDTH;
+constexpr auto BAD_GUY_MIN_X_POS = BAD_GUY_SPRITE_WIDTH;

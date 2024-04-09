@@ -1,6 +1,22 @@
 project('kablam', 'cpp')
 
-files = ['Game.cpp', 'Game.hpp', 'Main.cpp', 'Menu.cpp', 'Menu.hpp', 'Assets.cpp', 'Assets.hpp', 'FPSLimiter.cpp', 'FPSLimiter.hpp', 'Gameplay.cpp', 'Gameplay.hpp', 'Utility.cpp', 'Utility.hpp']
+files = [
+    'Game.cpp',
+    'Game.hpp',
+    'Main.cpp',
+    'Menu.cpp',
+    'Menu.hpp',
+    'Assets.cpp',
+    'Assets.hpp',
+    'FPSLimiter.cpp',
+    'FPSLimiter.hpp',
+    'Gameplay.cpp',
+    'Gameplay.hpp',
+    'Utility.cpp',
+    'Utility.hpp',
+    'Timer.cpp',
+    'Timer.hpp',
+]
 
 # copy assets from the assets directory to the build directory by using our custom command `copy_assets`
 copy = find_program(meson.current_source_dir() / 'copy-assets.py')

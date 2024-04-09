@@ -54,8 +54,6 @@ bool Assets::loadAssets(SDL_Renderer* renderer)
 	// Construct the wall used in both the menu and the game.
 	SDL_Texture* wallPiece = Assets::getTexture(BRICK_WALL_PIECE);
 
-	int skyboxHeight = 145; // arbitrary height for the skybox (roughly 4x the line height of the default font)
-
 	// create renderer for the wall texture
 	SDL_Texture* wallTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -68,7 +66,7 @@ bool Assets::loadAssets(SDL_Renderer* renderer)
 	// tile the wall piece across the screen to create a wall
 	for (int x = 0; x < SCREEN_WIDTH; x += BRICK_WALL_PIECE_SPRITE_WIDTH)
 	{
-		for (int y = skyboxHeight; y < SCREEN_HEIGHT; y += BRICK_WALL_PIECE_SPRITE_HEIGHT)
+		for (int y = SKYBOX_HEIGHT; y < SCREEN_HEIGHT; y += BRICK_WALL_PIECE_SPRITE_HEIGHT)
 		{
 			SDL_Rect destRect = { x, y, BRICK_WALL_PIECE_SPRITE_WIDTH, BRICK_WALL_PIECE_SPRITE_HEIGHT };
 			SDL_RenderCopy(renderer, wallPiece, NULL, &destRect);
