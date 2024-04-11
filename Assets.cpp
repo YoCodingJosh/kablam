@@ -77,6 +77,13 @@ bool Assets::loadAssets(SDL_Renderer* renderer)
 
 	Assets::textures.emplace(BRICK_WALL, wallTexture);
 
+	// Load the bomb texture
+	if (!Assets::loadTexture(renderer, BOMB, BOMB_SPRITE_FILE))
+	{
+		// we already logged the error in loadTexture
+		return false;
+	}
+
 	return true;
 }
 
