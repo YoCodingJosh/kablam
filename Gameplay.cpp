@@ -9,6 +9,9 @@
 
 #include "Gameplay.hpp"
 
+#include <stdlib.h>
+#include <time.h>
+
 #include <SDL2/SDL.h>
 
 #include "Assets.hpp"
@@ -28,6 +31,8 @@ Gameplay::Gameplay()
 		SDL_Log("Failed to get wall texture: %s", SDL_GetError());
 		return;
 	}
+
+	srand(time(nullptr));
 
 	this->score = 0;
 	this->badGuyPosition = SCREEN_WIDTH / 2 - 50;
@@ -71,7 +76,7 @@ void Gameplay::update(double deltaTime)
 	this->badGuyPositionTimer->tick();
 
 	// lerp the bad guy to the new position
-	this->badGuyPosition = lerp(this->badGuyPosition, this->newBadGuyPosition, 0.1f); // TODO: Should we use deltaTime here?
+	this->badGuyPosition = lerp(this->badGuyPosition, this->newBadGuyPosition, deltaTime * 10);
 
 	// check if the bad guy is close to the new position
 	if (abs(this->badGuyPosition - this->newBadGuyPosition) < 1)
