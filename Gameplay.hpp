@@ -24,6 +24,7 @@ private:
 	
 	int badGuyPosition; // TODO: move this to a bad guy class.
 	Timer* badGuyPositionTimer; // TODO: also move this to a bad guy class.
+	int newBadGuyPosition;
 public:
 	Gameplay();
 	~Gameplay();

@@ -13,6 +13,8 @@
 
 #include "Assets.hpp"
 #include "Constants.hpp"
+#include "Timer.hpp"
+#include "Utility.hpp"
 
 Gameplay::Gameplay()
 {
@@ -29,13 +31,14 @@ Gameplay::Gameplay()
 
 	this->score = 0;
 	this->badGuyPosition = SCREEN_WIDTH / 2 - 50;
+	this->newBadGuyPosition = this->badGuyPosition;
 
-	this->badGuyPositionTimer = new Timer(1000);
+	this->badGuyPositionTimer = new Timer(1250);
 	this->badGuyPositionTimer->setLoop(true);
 	this->badGuyPositionTimer->setTimeUpCallback([this]() {
 		// move the bad guy to a random position on the screen
 		// between BAD_GUY_MIN_X_POS and BAD_GUY_MAX_X_POS
-		this->badGuyPosition = rand() % (BAD_GUY_MAX_X_POS - BAD_GUY_MIN_X_POS) + BAD_GUY_MIN_X_POS;
+		this->newBadGuyPosition = rand() % (BAD_GUY_MAX_X_POS - BAD_GUY_MIN_X_POS) + BAD_GUY_MIN_X_POS;
 	});
 	this->badGuyPositionTimer->start();
 }
@@ -66,6 +69,15 @@ void Gameplay::update(double deltaTime)
 {
 	// Update the game logic here.
 	this->badGuyPositionTimer->tick();
+
+	// lerp the bad guy to the new position
+	this->badGuyPosition = lerp(this->badGuyPosition, this->newBadGuyPosition, 0.1f); // TODO: Should we use deltaTime here?
+
+	// check if the bad guy is close to the new position
+	if (abs(this->badGuyPosition - this->newBadGuyPosition) < 1)
+	{
+		this->badGuyPosition = this->newBadGuyPosition;
+	}
 }
 
 void Gameplay::render(SDL_Renderer* renderer)
