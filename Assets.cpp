@@ -26,6 +26,7 @@ TTF_Font* Assets::defaultFont = nullptr;
 TTF_Font* Assets::menuFont = nullptr;
 
 std::map<std::string, SDL_Texture*> Assets::textures;
+std::map<std::string, Animation*> Assets::animations;
 
 bool Assets::loadAssets(SDL_Renderer* renderer)
 {
@@ -84,11 +85,25 @@ bool Assets::loadAssets(SDL_Renderer* renderer)
 		return false;
 	}
 
+	// Create a bomb animation
+	Animation* bombAnimation = new Animation(Assets::textures[BOMB], 4, BOMB_SPRITE_WIDTH, BOMB_SPRITE_HEIGHT, 15);
+
+	Assets::animations.emplace(BOMB, bombAnimation);
+
 	return true;
 }
 
 void Assets::unloadAssets()
 {
+	// Free all animations
+	for (auto& animation : Assets::animations)
+	{
+		delete animation.second;
+	}
+
+	Assets::animations.clear();
+
+	// Free all textures
 	for (auto& texture : Assets::textures)
 	{
 		SDL_DestroyTexture(texture.second);
@@ -139,4 +154,19 @@ SDL_Texture* Assets::getTexture(const std::string& name)
 TTF_Font* Assets::getMenuFontCopy()
 {
 	return TTF_OpenFont(MENU_FONT_PATH, 24);
+}
+
+Animation Assets::getAnimation(const std::string& name)
+{
+	if (Assets::animations.find(name) == Assets::animations.end())
+	{
+		SDL_Log("Failed to find animation: %s", name.c_str());
+		return Animation();
+	}
+
+	// be explicit about doing a copy here, since we have a pointer to the animation
+	Animation* animation = Assets::animations[name];
+	Animation copy = *animation;
+
+	return copy;
 }

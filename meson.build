@@ -16,6 +16,8 @@ files = [
     'Utility.hpp',
     'Timer.cpp',
     'Timer.hpp',
+    'Animation.cpp',
+    'Animation.hpp',
 ]
 
 # copy assets from the assets directory to the build directory by using our custom command `copy_assets`

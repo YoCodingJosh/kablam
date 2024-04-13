@@ -17,6 +17,8 @@ typedef _TTF_Font TTF_Font;
 #include <string>
 #include <map>
 
+#include "Animation.hpp"
+
 class Assets final
 {
 	friend class Game;
@@ -31,10 +33,14 @@ private:
 
 	static bool loadTexture(SDL_Renderer* renderer, const std::string& name, const std::string& path);
 
+	static std::map<std::string, Animation*> animations;
+
 public:
 	inline static TTF_Font* getDefaultFont() noexcept { return defaultFont; }
 	inline static TTF_Font* getMenuFont() noexcept { return menuFont; }
 	static TTF_Font* getMenuFontCopy(); // this is for renderTextWithOutline functions to use lol
 
 	static SDL_Texture* getTexture(const std::string& name);
+
+	static Animation getAnimation(const std::string& name);
 };

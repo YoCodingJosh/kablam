@@ -13,6 +13,8 @@ struct SDL_Renderer;
 struct SDL_Texture;
 union SDL_Event;
 
+#include "Animation.hpp"
+
 class Menu
 {
 private:
@@ -29,6 +31,9 @@ private:
 	SDL_Texture* promptTextTexture;
 	int promptTextWidth;
 	int promptTextHeight;
+
+	// temporary
+	Animation bombAnimation;
 public:
 	Menu();
 	~Menu();
