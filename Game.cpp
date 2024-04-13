@@ -115,11 +115,13 @@ void Game::quit()
 	if (this->menu != nullptr)
 	{
 		delete this->menu;
+		this->menu = nullptr;
 	}
 
 	if (this->gameplay != nullptr)
 	{
 		delete this->gameplay;
+		this->gameplay = nullptr;
 	}
 
 	Assets::unloadAssets();
@@ -265,6 +267,12 @@ inline void Game::update(double deltaTime)
 		if (this->gameplay == nullptr)
 		{
 			this->gameplay = new Gameplay();
+
+			if (this->menu != nullptr)
+			{
+				delete this->menu;
+				this->menu = nullptr;
+			}
 		}
 
 		this->gameplay->update(deltaTime);

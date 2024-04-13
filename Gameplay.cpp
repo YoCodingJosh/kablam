@@ -11,6 +11,7 @@
 
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 
 #include <SDL2/SDL.h>
 
@@ -20,6 +21,12 @@
 #include "Utility.hpp"
 
 Gameplay::Gameplay()
+	: badGuyTexture(nullptr)
+	, wallTexture(nullptr)
+	, badGuyPosition(0)
+	, newBadGuyPosition(0)
+	, badGuyPositionTimer(nullptr)
+	, score(0)
 {
 	this->badGuyTexture = nullptr;
 	this->wallTexture = nullptr;

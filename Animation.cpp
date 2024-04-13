@@ -46,7 +46,7 @@ void Animation::update(double delta)
 
     // int framesToUpdate = ceil(delta / (1.00 / (double)this->framesPerSecond));
 
-    int framesToUpdate = floor(clamp(this->timeSinceLastFrame, 0, 1) * this->framesPerSecond);
+    int framesToUpdate = floor(clamp(this->timeSinceLastFrame, 0.0, 1.0) * this->framesPerSecond);
 
     if (framesToUpdate > 0)
     {

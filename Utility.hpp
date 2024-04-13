@@ -17,12 +17,14 @@
 SDL_Texture* renderTextWithOutline(SDL_Renderer* renderer, const char* text, int outlineSize = 2, SDL_Color textColor = { 0xFF, 0xFF, 0xFF }, SDL_Color outlineColor = { 0x00, 0x00, 0x00 });
 SDL_Texture* renderTextWithOutlineCoolEffect(SDL_Renderer* renderer, const char* text, SDL_Color textColor = { 0xFF, 0xFF, 0xFF }, SDL_Color outlineColor = { 0x00, 0x00, 0x00 });
 
-inline int lerp(int a, int b, float t)
+template <typename T>
+inline T lerp(T a, T b, double t)
 {
 	return a + (b - a) * t;
 }
 
-inline double clamp(double value, double min, double max)
+template <typename T>
+inline T clamp(T value, T min, T max)
 {
 	if (min > max)
 		throw std::invalid_argument("min is greater than max");

@@ -22,9 +22,9 @@ private:
 	SDL_Texture* wallTexture;
 	unsigned int score;
 	
-	int badGuyPosition; // TODO: move this to a bad guy class.
+	double badGuyPosition; // TODO: move this to a bad guy class.
 	Timer* badGuyPositionTimer; // TODO: also move this to a bad guy class.
-	int newBadGuyPosition;
+	double newBadGuyPosition;
 public:
 	Gameplay();
 	~Gameplay();
