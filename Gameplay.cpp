@@ -116,7 +116,7 @@ void Gameplay::render(SDL_Renderer* renderer)
 	}
 
 	// put the bad guy in the middle of the screen at SKYBOX_HEIGHT
-	SDL_Rect badGuyRect = { badGuyPosition, SKYBOX_HEIGHT - 100, 100, 100 };
+	SDL_Rect badGuyRect = { static_cast<int>(badGuyPosition), SKYBOX_HEIGHT - 100, 100, 100 };
 
 	SDL_RenderCopy(renderer, this->badGuyTexture, nullptr, &badGuyRect);
 }
