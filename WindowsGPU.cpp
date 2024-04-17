@@ -20,4 +20,6 @@ extern "C" __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
 // AMD
 extern "C" __declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
 
+// TODO: Intel Iris/Arc GPU support?
+
 #endif

@@ -83,7 +83,7 @@ void Gameplay::update(double deltaTime)
 	this->badGuyPositionTimer->tick();
 
 	// lerp the bad guy to the new position
-	this->badGuyPosition = lerp(this->badGuyPosition, this->newBadGuyPosition, deltaTime * 10);
+	this->badGuyPosition = lerp(this->badGuyPosition, this->newBadGuyPosition, deltaTime * 3);
 
 	// check if the bad guy is close to the new position
 	if (abs(this->badGuyPosition - this->newBadGuyPosition) < 1)
