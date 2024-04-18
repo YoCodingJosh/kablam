@@ -21,14 +21,10 @@
 #include "Utility.hpp"
 
 Gameplay::Gameplay()
-	: badGuyTexture(nullptr)
-	, wallTexture(nullptr)
-	, badGuyPosition(0)
-	, newBadGuyPosition(0)
-	, badGuyPositionTimer(nullptr)
+	: wallTexture(nullptr)
 	, score(0)
+	, badGuy(nullptr)
 {
-	this->badGuyTexture = nullptr;
 	this->wallTexture = nullptr;
 
 	this->wallTexture = Assets::getTexture(BRICK_WALL);
@@ -42,31 +38,18 @@ Gameplay::Gameplay()
 	srand(time(nullptr));
 
 	this->score = 0;
-	this->badGuyPosition = SCREEN_WIDTH / 2 - 50;
-	this->newBadGuyPosition = this->badGuyPosition;
 
-	this->badGuyPositionTimer = new Timer(1250);
-	this->badGuyPositionTimer->setLoop(true);
-	this->badGuyPositionTimer->setTimeUpCallback([this]() {
-		// move the bad guy to a random position on the screen
-		// between BAD_GUY_MIN_X_POS and BAD_GUY_MAX_X_POS
-		this->newBadGuyPosition = rand() % (BAD_GUY_MAX_X_POS - BAD_GUY_MIN_X_POS) + BAD_GUY_MIN_X_POS;
-	});
-	this->badGuyPositionTimer->start();
+	this->badGuy = new BadGuy();
+
+	this->badGuy->start(1);
 }
 
 Gameplay::~Gameplay()
 {
-	if (this->badGuyTexture)
+	if (this->badGuy)
 	{
-		SDL_DestroyTexture(this->badGuyTexture);
-		this->badGuyTexture = nullptr;
-	}
-
-	if (this->badGuyPositionTimer)
-	{
-		delete this->badGuyPositionTimer;
-		this->badGuyPositionTimer = nullptr;
+		delete this->badGuy;
+		this->badGuy = nullptr;
 	}
 
 	// We don't need to destroy the wall texture because it is managed by the Assets class.
@@ -79,16 +62,9 @@ void Gameplay::handleInput(SDL_Event& e)
 
 void Gameplay::update(double deltaTime)
 {
-	// Update the game logic here.
-	this->badGuyPositionTimer->tick();
-
-	// lerp the bad guy to the new position
-	this->badGuyPosition = lerp(this->badGuyPosition, this->newBadGuyPosition, deltaTime * 3);
-
-	// check if the bad guy is close to the new position
-	if (abs(this->badGuyPosition - this->newBadGuyPosition) < 1)
+	if (this->badGuy)
 	{
-		this->badGuyPosition = this->newBadGuyPosition;
+		this->badGuy->update(deltaTime);
 	}
 }
 
@@ -101,22 +77,8 @@ void Gameplay::render(SDL_Renderer* renderer)
 		SDL_RenderCopy(renderer, this->wallTexture, nullptr, &wallRect);
 	}
 
-	if (!this->badGuyTexture)
+	if (this->badGuy)
 	{
-		// just create a black square for the bad guy at 100x100
-		SDL_Surface* badGuySurface = SDL_CreateRGBSurface(0, 100, 100, 32, 0, 0, 0, 0);
-		SDL_FillRect(badGuySurface, nullptr, SDL_MapRGB(badGuySurface->format, 0, 0, 0));
-		this->badGuyTexture = SDL_CreateTextureFromSurface(renderer, badGuySurface);
-
-		if (!this->badGuyTexture)
-		{
-			SDL_Log("Failed to create bad guy texture: %s", SDL_GetError());
-			return;
-		}
+		this->badGuy->render(renderer);
 	}
-
-	// put the bad guy in the middle of the screen at SKYBOX_HEIGHT
-	SDL_Rect badGuyRect = { static_cast<int>(badGuyPosition), SKYBOX_HEIGHT - 100, 100, 100 };
-
-	SDL_RenderCopy(renderer, this->badGuyTexture, nullptr, &badGuyRect);
 }

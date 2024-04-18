@@ -13,6 +13,7 @@
 
 #include <functional>
 
+struct SDL_Texture;
 struct SDL_Renderer;
 
 class BadGuy
@@ -21,6 +22,7 @@ private:
 	bool isPaused; // is the bad guy paused?
 
 	float position; // only position that matters is x, since he moves left to right
+	float newPosition; // where he's moving to
 	float velocity; // how fast he moves
 	float velocityMultiplier; // sometimes he speeds up
 
@@ -31,6 +33,9 @@ private:
 	std::function<void(float, float)> bombDropCallback; // callback for when he drops a bomb
 
 	int currentLevel; // the current level the player is on
+
+	// TODO: make this an animation and more than one kind of animation
+	SDL_Texture* texture; // the bad guy's texture
 public:
 	BadGuy();
 	~BadGuy();

@@ -11,6 +11,7 @@
 
 #include "Timer.hpp"
 #include "Constants.hpp"
+#include "Utility.hpp"
 
 #include <SDL2/SDL.h>
 
@@ -20,18 +21,16 @@ BadGuy::BadGuy() :
 	movementTimer(nullptr),
 	bombTimer(nullptr),
 	position(SCREEN_WIDTH / 2 - BAD_GUY_SPRITE_WIDTH / 2),
+	newPosition(position),
 	velocity(0),
 	velocityMultiplier(1),
 	shouldDropBomb(false),
 	isPaused(false),
 	bombDropCallback(nullptr),
-	currentLevel(0)
+	currentLevel(0),
+	texture(nullptr)
 {
-	movementTimer = new Timer(1250);
-	movementTimer->setLoop(true);
-
-	bombTimer = new Timer(500);
-	bombTimer->setLoop(true);
+	// nothing to do here
 }
 
 BadGuy::~BadGuy()
@@ -49,6 +48,13 @@ BadGuy::~BadGuy()
 
 		bombTimer = nullptr;
 	}
+
+	if (texture != nullptr)
+	{
+		SDL_DestroyTexture(texture);
+
+		texture = nullptr;
+	}
 }
 
 void BadGuy::start(int level)
@@ -60,11 +66,28 @@ void BadGuy::start(int level)
 	velocity = 0;
 	velocityMultiplier = 1;
 
-	/*movementTimer->setInterval(1000 - (level * 100));
-	bombTimer->setInterval(2000 - (level * 200));*/
+	movementTimer = new Timer(1250); // arbitrary value for now
+	movementTimer->setLoop(true);
+
+	this->movementTimer->setTimeUpCallback([this]() {
+		// move the bad guy to a random position on the screen
+		// between BAD_GUY_MIN_X_POS and BAD_GUY_MAX_X_POS
+		this->newPosition = rand() % (BAD_GUY_MAX_X_POS - BAD_GUY_MIN_X_POS) + BAD_GUY_MIN_X_POS;
+	});
+
+	bombTimer = new Timer(500); // arbitrary value for now
+	bombTimer->setLoop(true);
 
 	movementTimer->start();
 	bombTimer->start();
+}
+
+void BadGuy::stop()
+{
+	movementTimer->stop();
+	bombTimer->stop();
+
+	// TODO: should we delete the timers here?
 }
 
 void BadGuy::update(double delta)
@@ -76,9 +99,35 @@ void BadGuy::update(double delta)
 
 	movementTimer->tick();
 	bombTimer->tick();
+
+	// lerp the bad guy to the new position
+	this->position = lerp(this->position, this->newPosition, delta * 3);
+
+	// check if the bad guy is close to the new position
+	if (abs(this->position - this->newPosition) < 1)
+	{
+		this->position = this->newPosition;
+	}
 }
 
 void BadGuy::render(SDL_Renderer* renderer)
 {
+	if (!this->texture)
+	{
+		// just create a black square for the bad guy at 100x100
+		SDL_Surface* badGuySurface = SDL_CreateRGBSurface(0, 100, 100, 32, 0, 0, 0, 0);
+		SDL_FillRect(badGuySurface, nullptr, SDL_MapRGB(badGuySurface->format, 0, 0, 0));
+		this->texture = SDL_CreateTextureFromSurface(renderer, badGuySurface);
 
+		if (!this->texture)
+		{
+			SDL_Log("Failed to create bad guy texture: %s", SDL_GetError());
+			return;
+		}
+	}
+
+	// put the bad guy in the middle of the screen at SKYBOX_HEIGHT
+	SDL_Rect badGuyRect = { static_cast<int>(this->position), SKYBOX_HEIGHT - 100, 100, 100 };
+
+	SDL_RenderCopy(renderer, this->texture, nullptr, &badGuyRect);
 }

@@ -153,6 +153,9 @@ int Game::run()
 		return 69;
 	}
 
+	std::cout << GAME_TITLE << std::endl;
+	std::cout << GAME_COPYRIGHT_STDOUT << "\n" << std::endl;
+
 	auto exitCode = this->init();
 
 	if (exitCode != 0)

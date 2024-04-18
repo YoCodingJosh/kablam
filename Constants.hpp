@@ -11,8 +11,11 @@
 
 constexpr auto GAME_TITLE = "Kablam!";
 constexpr auto GAME_COPYRIGHT = "Copyright \xA9 2024 Josh Kennedy";
+constexpr auto GAME_COPYRIGHT_STDOUT = "Copyright (C) 2024 Josh Kennedy";
 constexpr auto SCREEN_WIDTH = 1280;
 constexpr auto SCREEN_HEIGHT = 960;
+
+constexpr auto SCORE_TEXT = "Score: ";
 
 constexpr auto TARGET_FRAME_RATE = 60;
 constexpr auto TARGET_FRAME_TIME = 1.0 / TARGET_FRAME_RATE;
