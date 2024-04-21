@@ -18,6 +18,8 @@ files = [
     'Timer.hpp',
     'Animation.cpp',
     'Animation.hpp',
+    'BadGuy.cpp',
+    'BadGuy.hpp',
 ]
 
 # copy assets from the assets directory to the build directory by using our custom command `copy_assets`
