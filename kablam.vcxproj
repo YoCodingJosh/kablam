@@ -138,6 +138,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Assets.cpp" />
     <ClCompile Include="BadGuy.cpp" />
+    <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="FPSLimiter.cpp" />
     <ClCompile Include="Gameplay.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="Animation.hpp" />
     <ClInclude Include="Assets.hpp" />
     <ClInclude Include="BadGuy.hpp" />
+    <ClInclude Include="Bomb.hpp" />
     <ClInclude Include="Constants.hpp" />
     <ClInclude Include="FPSLimiter.hpp" />
     <ClInclude Include="Game.hpp" />
