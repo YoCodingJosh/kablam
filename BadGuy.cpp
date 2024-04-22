@@ -66,7 +66,7 @@ void BadGuy::start(int level)
 	velocity = 0;
 	velocityMultiplier = 1;
 
-	movementTimer = new Timer(1250); // arbitrary value for now
+	movementTimer = new Timer(1500); // arbitrary value for now
 	movementTimer->setLoop(true);
 
 	this->movementTimer->setTimeUpCallback([this]() {
@@ -75,8 +75,20 @@ void BadGuy::start(int level)
 		this->newPosition = rand() % (BAD_GUY_MAX_X_POS - BAD_GUY_MIN_X_POS) + BAD_GUY_MIN_X_POS;
 	});
 
-	bombTimer = new Timer(500); // arbitrary value for now
+	bombTimer = new Timer(1000); // arbitrary value for now
 	bombTimer->setLoop(true);
+	bombTimer->setTimeUpCallback([this]() {
+		// drop a bomb
+		this->shouldDropBomb = true;
+
+		if (this->bombDropCallback)
+		{
+			this->bombDropCallback(this->getX(), this->getY());
+		}
+
+		// reset the flag
+		this->shouldDropBomb = false;
+	});
 
 	movementTimer->start();
 	bombTimer->start();
@@ -101,7 +113,7 @@ void BadGuy::update(double delta)
 	bombTimer->tick();
 
 	// lerp the bad guy to the new position
-	this->position = lerp(this->position, this->newPosition, delta * 3);
+	this->position = lerp(this->position, this->newPosition, delta * BAD_GUY_SPEED);
 
 	// check if the bad guy is close to the new position
 	if (abs(this->position - this->newPosition) < 1)
@@ -126,8 +138,7 @@ void BadGuy::render(SDL_Renderer* renderer)
 		}
 	}
 
-	// put the bad guy in the middle of the screen at SKYBOX_HEIGHT
-	SDL_Rect badGuyRect = { static_cast<int>(this->position), SKYBOX_HEIGHT - 100, 100, 100 };
+	SDL_Rect badGuyRect = { static_cast<int>(this->position), BAD_GUY_Y_POS, BAD_GUY_SPRITE_WIDTH, BAD_GUY_SPRITE_HEIGHT};
 
 	SDL_RenderCopy(renderer, this->texture, nullptr, &badGuyRect);
 }

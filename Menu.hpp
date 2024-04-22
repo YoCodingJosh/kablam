@@ -31,9 +31,6 @@ private:
 	SDL_Texture* promptTextTexture;
 	int promptTextWidth;
 	int promptTextHeight;
-
-	// temporary
-	Animation bombAnimation;
 public:
 	Menu();
 	~Menu();

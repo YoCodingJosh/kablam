@@ -11,6 +11,8 @@
 
 #include "Timer.hpp"
 
+#include "Constants.hpp"
+
 #include <functional>
 
 struct SDL_Texture;
@@ -106,4 +108,14 @@ public:
 
 	void update(double delta);
 	void render(SDL_Renderer* renderer);
+
+	inline float getX() const
+	{
+		return position;
+	}
+
+	inline float getY() const
+	{
+		return BAD_GUY_Y_POS;
+	}
 };

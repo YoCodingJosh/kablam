@@ -35,13 +35,15 @@ constexpr auto BAD_GUY = "BAD_GUY";
 //constexpr auto BAD_GUY_SPRITE_FILE = "assets/badguy.png";
 constexpr auto BAD_GUY_SPRITE_WIDTH = 100;
 constexpr auto BAD_GUY_SPRITE_HEIGHT = 100;
+constexpr auto BAD_GUY_Y_POS = SKYBOX_HEIGHT - BAD_GUY_SPRITE_HEIGHT;
 constexpr auto BAD_GUY_MAX_X_POS = SCREEN_WIDTH - BAD_GUY_SPRITE_WIDTH;
 constexpr auto BAD_GUY_MIN_X_POS = BAD_GUY_SPRITE_WIDTH;
-constexpr auto BAD_GUY_SPEED = 5;
+constexpr auto BAD_GUY_SPEED = 3;
 
 constexpr auto BOMB = "BOMB";
 constexpr auto BOMB_SPRITE_FILE = "assets/Bomb.png";
 constexpr auto BOMB_SPRITE_WIDTH = 64;
 constexpr auto BOMB_SPRITE_HEIGHT = 64;
 constexpr auto BOMB_FRAME_COUNT = 4;
-constexpr auto BOMB_FRAME_TIME = 0.1f;
+constexpr auto BOMB_FRAME_TIME = 0.3f;
+constexpr auto BOMB_FALL_SPEED = 64;

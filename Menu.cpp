@@ -42,18 +42,10 @@ Menu::Menu()
 		SDL_Log("Failed to get wall texture: %s", SDL_GetError());
 		return;
 	}
-
-	// get bomb animation
-	this->bombAnimation = Assets::getAnimation(BOMB);
-	this->bombAnimation.setX(SCREEN_WIDTH / 2 - this->bombAnimation.getFrameWidth() / 2);
-	this->bombAnimation.setY(SCREEN_HEIGHT / 2 - this->bombAnimation.getFrameHeight() / 2);
-	this->bombAnimation.play();
 }
 
 Menu::~Menu()
 {
-	this->bombAnimation.stop();
-
 	// free the textures
 	if (this->titleTextTexture)
 	{
@@ -99,7 +91,7 @@ void Menu::handleInput(SDL_Event& e)
 
 void Menu::update(double deltaTime)
 {
-	this->bombAnimation.update(deltaTime);
+	// nothing to do here yet
 }
 
 void Menu::render(SDL_Renderer* renderer)
@@ -181,6 +173,4 @@ void Menu::render(SDL_Renderer* renderer)
 	SDL_RenderCopy(renderer, this->titleTextTexture, NULL, &titleDestRect);
 	SDL_RenderCopy(renderer, this->copyrightTextTexture, NULL, &copyrightDestRect);
 	SDL_RenderCopy(renderer, this->promptTextTexture, NULL, &promptDestRect);
-	
-	this->bombAnimation.render(renderer);
 }

@@ -41,6 +41,10 @@ Gameplay::Gameplay()
 
 	this->badGuy = new BadGuy();
 
+	this->badGuy->registerBombDropCallback([this](float x, float y) {
+		this->dropBomb(x, y + BOMB_SPRITE_HEIGHT);
+	});
+
 	this->badGuy->start(1);
 }
 
@@ -52,7 +56,20 @@ Gameplay::~Gameplay()
 		this->badGuy = nullptr;
 	}
 
+	for (auto bomb : this->bombs)
+	{
+		delete bomb;
+	}
+
 	// We don't need to destroy the wall texture because it is managed by the Assets class.
+}
+
+void Gameplay::dropBomb(float x, float y)
+{
+	// Create a new bomb.
+	Bomb* bomb = new Bomb(x, y);
+
+	this->bombs.push_back(bomb);
 }
 
 void Gameplay::handleInput(SDL_Event& e)
@@ -65,6 +82,23 @@ void Gameplay::update(double deltaTime)
 	if (this->badGuy)
 	{
 		this->badGuy->update(deltaTime);
+	}
+
+	for (auto it = this->bombs.begin(); it != this->bombs.end();)
+	{
+		Bomb* bomb = *it;
+
+		bomb->update(deltaTime);
+
+		if (!bomb->isActive())
+		{
+			delete bomb;
+			it = this->bombs.erase(it);
+		}
+		else
+		{
+			++it;
+		}
 	}
 }
 
@@ -80,5 +114,10 @@ void Gameplay::render(SDL_Renderer* renderer)
 	if (this->badGuy)
 	{
 		this->badGuy->render(renderer);
+	}
+
+	for (auto bomb : this->bombs)
+	{
+		bomb->render(renderer);
 	}
 }
