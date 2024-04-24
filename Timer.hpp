@@ -18,6 +18,7 @@ private:
     uint64_t time;
     uint64_t ticks;
     uint64_t endTicks;
+    uint64_t pausedTicks;
     bool paused;
     bool started;
     std::function<void()> tickCallback;

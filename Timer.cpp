@@ -45,6 +45,7 @@ void Timer::pause()
 {
     if (this->started && !this->paused)
     {
+        this->pausedTicks = SDL_GetTicks64();
         this->paused = true;
     }
 }
@@ -53,8 +54,8 @@ void Timer::unpause()
 {
     if (this->started && this->paused)
     {
+        this->ticks += SDL_GetTicks64() - this->pausedTicks;
         this->paused = false;
-        this->ticks = SDL_GetTicks64() - this->getTicks();
     }
 }
 

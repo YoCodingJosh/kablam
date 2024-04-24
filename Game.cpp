@@ -219,7 +219,8 @@ inline void Game::handleInput()
 
 	while (SDL_PollEvent(&event))
 	{
-		if (event.type == SDL_QUIT || event.type == SDL_APP_TERMINATING)
+		if (event.type == SDL_QUIT || event.type == SDL_APP_TERMINATING ||
+			(event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE))
 		{
 			this->isRunning = false;
 			this->currentState = GameState::QUIT;
