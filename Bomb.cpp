@@ -15,13 +15,11 @@
 #include <SDL2/SDL.h>
 
 Bomb::Bomb(float x, float y, float velocity)
-	: velocity(velocity), x(x), y(y)
+	: velocity(velocity), x(x), y(y), animation(Assets::getAnimation(BOMB)), active(true)
 {
-	this->active = true;
-
-	this->animation = Assets::getAnimation(BOMB);
 	this->animation.setX(x);
 	this->animation.setY(y);
+
 	this->animation.play();
 }
 
