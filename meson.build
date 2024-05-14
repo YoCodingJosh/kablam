@@ -20,6 +20,8 @@ files = [
     'Animation.hpp',
     'BadGuy.cpp',
     'BadGuy.hpp',
+    'Bomb.cpp',
+    'Bomb.hpp',
 ]
 
 # copy assets from the assets directory to the build directory by using our custom command `copy_assets`
