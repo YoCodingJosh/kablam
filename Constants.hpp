@@ -9,6 +9,8 @@
 
 #pragma once
 
+#include "Utility.hpp"
+
 constexpr auto GAME_TITLE = "Kablam!";
 constexpr auto GAME_COPYRIGHT = "Copyright \xA9 2024 Josh Kennedy";
 constexpr auto GAME_COPYRIGHT_STDOUT = "Copyright (C) 2024 Josh Kennedy";
@@ -47,3 +49,6 @@ constexpr auto BOMB_SPRITE_HEIGHT = 64;
 constexpr auto BOMB_FRAME_COUNT = 4;
 constexpr auto BOMB_FRAME_TIME = 0.3f;
 constexpr auto BOMB_FALL_SPEED = 64;
+
+constexpr auto PAUSED_SCREEN_TEXT = "PAUSED";
+constexpr auto PAUSED_SCREEN_TEXT_LENGTH = constexpr_strlen(PAUSED_SCREEN_TEXT);
