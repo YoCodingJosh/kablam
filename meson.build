@@ -22,6 +22,8 @@ files = [
     'BadGuy.hpp',
     'Bomb.cpp',
     'Bomb.hpp',
+    'PauseScreen.cpp',
+    'PauseScreen.hpp',
 ]
 
 # copy assets from the assets directory to the build directory by using our custom command `copy_assets`
@@ -38,4 +40,4 @@ sdl2_mixer_dep = dependency('sdl2_mixer')
 
 dependencies = [sdl2_dep, sdl2_image_dep, sdl2_ttf_dep, sdl2_mixer_dep]
 
-executable('kablam', files, dependencies: dependencies, gui_app: true, override_options: ['cpp_std=c++20'])
+executable('kablam', files, dependencies: dependencies, override_options: ['cpp_std=c++20'])
