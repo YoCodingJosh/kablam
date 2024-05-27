@@ -98,4 +98,6 @@ public:
 	inline void setState(GameState state) noexcept { this->currentState = state; }
 
 	inline bool isTouchAvailable() const noexcept { return this->__isTouchAvailable; }
+
+	inline SDL_Renderer* getRenderer() const noexcept { return this->renderer; }
 };

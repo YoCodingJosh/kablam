@@ -11,20 +11,44 @@
 
 #include "Constants.hpp"
 #include "Assets.hpp"
+#include "Game.hpp"
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 #include <math.h>
 
 PauseScreen::PauseScreen()
 	: textWidth(0), textHeight(0), time(0.0), textTexture(nullptr)
 {
+	auto textSurface = TTF_RenderText_Blended(Assets::getDefaultFont(), PAUSED_SCREEN_TEXT, { 255, 255, 255 });
 
+	if (!textSurface)
+	{
+		SDL_Log("Failed to create text surface: %s", SDL_GetError());
+		return;
+	}
+
+	this->textTexture = SDL_CreateTextureFromSurface(Game::get()->getRenderer(), textSurface);
+
+	if (!this->textTexture)
+	{
+		SDL_Log("Failed to create text texture: %s", SDL_GetError());
+		return;
+	}
+
+	SDL_QueryTexture(this->textTexture, nullptr, nullptr, &this->textWidth, &this->textHeight);
+
+	SDL_FreeSurface(textSurface);
 }
 
 PauseScreen::~PauseScreen()
 {
-	// stub
+	if (this->textTexture)
+	{
+		SDL_DestroyTexture(this->textTexture);
+		this->textTexture = nullptr;
+	}
 }
 
 void PauseScreen::update(double deltaTime)
@@ -39,6 +63,10 @@ void PauseScreen::handleEvent(const SDL_Event& event)
 
 void PauseScreen::render(SDL_Renderer* renderer)
 {
+	// render a semi-transparent black background
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 128);
+    SDL_RenderFillRect(renderer, nullptr);
+
     SDL_SetTextureColorMod(this->textTexture, 255, 255, 255);
 
     // Calculate the position to center the text horizontally

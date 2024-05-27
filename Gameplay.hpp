@@ -13,6 +13,7 @@
 
 #include "BadGuy.hpp"
 #include "Bomb.hpp"
+#include "PauseScreen.hpp"
 
 #include <vector>
 
@@ -23,10 +24,12 @@ union SDL_Event;
 class Gameplay
 {
 private:
+	bool isPaused;
 	BadGuy* badGuy;
 	SDL_Texture* wallTexture;
 	unsigned int score;
 	std::vector<Bomb*> bombs;
+	PauseScreen* pauseScreen;
 public:
 	Gameplay();
 	~Gameplay();

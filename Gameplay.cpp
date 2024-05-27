@@ -24,9 +24,9 @@ Gameplay::Gameplay()
 	: wallTexture(nullptr)
 	, score(0)
 	, badGuy(nullptr)
+	, isPaused(false)
+	, pauseScreen(nullptr)
 {
-	this->wallTexture = nullptr;
-
 	this->wallTexture = Assets::getTexture(BRICK_WALL);
 
 	if (!this->wallTexture)
@@ -36,6 +36,8 @@ Gameplay::Gameplay()
 	}
 
 	srand(time(nullptr));
+
+	this->pauseScreen = new PauseScreen();
 
 	this->score = 0;
 
@@ -61,12 +63,19 @@ Gameplay::~Gameplay()
 		delete bomb;
 	}
 
+	this->bombs.clear();
+
+	if (this->pauseScreen)
+	{
+		delete this->pauseScreen;
+		this->pauseScreen = nullptr;
+	}
+
 	// We don't need to destroy the wall texture because it is managed by the Assets class.
 }
 
 void Gameplay::dropBomb(float x, float y)
 {
-	// Create a new bomb.
 	Bomb* bomb = new Bomb(x, y);
 
 	this->bombs.push_back(bomb);
@@ -74,11 +83,39 @@ void Gameplay::dropBomb(float x, float y)
 
 void Gameplay::handleInput(SDL_Event& e)
 {
-	// Handle input here.
+	if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE)
+	{
+		this->isPaused = !this->isPaused;
+
+		if (this->isPaused)
+		{
+			this->badGuy->pause();
+		}
+		else
+		{
+			this->badGuy->resume();
+		}
+	}
+
+	if (this->isPaused)
+	{
+		this->pauseScreen->handleEvent(e);
+	}
+	else
+	{
+		// do something else
+	}
 }
 
 void Gameplay::update(double deltaTime)
 {
+	if (this->isPaused)
+	{
+		this->pauseScreen->update(deltaTime);
+
+		return;
+	}
+
 	if (this->badGuy)
 	{
 		this->badGuy->update(deltaTime);
@@ -119,5 +156,10 @@ void Gameplay::render(SDL_Renderer* renderer)
 	for (auto bomb : this->bombs)
 	{
 		bomb->render(renderer);
+	}
+
+	if (this->isPaused)
+	{
+		this->pauseScreen->render(renderer);
 	}
 }
