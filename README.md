@@ -44,4 +44,12 @@ Some systems you may have to install:
   * `libogg-dev`
   * `libvorbis-dev`
 
-Once you have that installed, run `meson builddir` then `cd builddir` and then `ninja`. Somewhat easy peasy!
+Once you have that installed, run `meson builddir` then `meson compile -C builddir`. Somewhat easy peasy!
+
+### WebAssembly
+
+Install the Emscripten SDK (emsdk), Meson, and ninja.
+
+Run: `meson setup build-emscripten --cross-file emscripten.cross` and then `meson compile -C build-emscripten`
+
+The first compile may take some time due to fetching the SDL libraries.

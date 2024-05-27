@@ -100,4 +100,11 @@ public:
 	inline bool isTouchAvailable() const noexcept { return this->__isTouchAvailable; }
 
 	inline SDL_Renderer* getRenderer() const noexcept { return this->renderer; }
+
+	#if __EMSCRIPTEN__
+	inline void __loopThunk()
+	{
+		this->thunk();
+	}
+	#endif
 };

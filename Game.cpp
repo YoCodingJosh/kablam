@@ -21,6 +21,15 @@
 #include "Assets.hpp"
 #include "Constants.hpp"
 
+#if __EMSCRIPTEN__
+#include <emscripten.h>
+
+void GameEmscriptenLoopThunk(void* game)
+{
+	static_cast<Game*>(game)->__loopThunk();
+}
+#endif
+
 Game* Game::__instance = nullptr;
 
 Game::Game()
@@ -36,7 +45,13 @@ Game::Game()
 
 int Game::init()
 {
-	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+	auto sdlInitFlags = SDL_INIT_EVERYTHING;
+
+	#if __EMSCRIPTEN__
+		sdlInitFlags &= ~SDL_INIT_HAPTIC;
+	#endif
+
+	if (SDL_Init(sdlInitFlags) != 0)
 	{
 		std::cerr << "Failed to initialize SDL! SDL says: " << SDL_GetError() << "\n";
 
@@ -172,7 +187,7 @@ int Game::run()
 	this->__isTouchAvailable = SDL_GetNumTouchDevices() > 0;
 
 #if __EMSCRIPTEN__
-	emscripten_set_main_loop([this]() { this->thunk(); }, 0, 1);
+	emscripten_set_main_loop_arg(GameEmscriptenLoopThunk, this, 0, 1);
 #else
 	// Get the current monitor's refresh rate and set the target FPS to that.
 	SDL_DisplayMode dm;
