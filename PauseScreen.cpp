@@ -53,7 +53,7 @@ PauseScreen::~PauseScreen()
 
 void PauseScreen::update(double deltaTime)
 {
-	this->time += deltaTime * 16;
+	this->time += deltaTime * 10;
 }
 
 void PauseScreen::handleEvent(const SDL_Event& event)
