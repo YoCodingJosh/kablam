@@ -19,6 +19,11 @@ constexpr auto SCREEN_HEIGHT = 960;
 
 constexpr auto SCORE_TEXT = "Score: ";
 
+constexpr auto PROMPT_TEXT_DESKTOP = "Press Enter or Click to Play";
+constexpr auto PROMPT_TEXT_TOUCH_ENABLED = "Press Enter or Touch/Click to Play";
+
+constexpr auto PROMPT_TEXT_BLINK_TIME = 0.66667;
+
 constexpr auto TARGET_FRAME_RATE = 60;
 constexpr auto TARGET_FRAME_TIME = 1.0 / TARGET_FRAME_RATE;
 

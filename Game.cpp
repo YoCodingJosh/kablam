@@ -186,6 +186,8 @@ int Game::run()
 	// Detect if touch input is available
 	this->__isTouchAvailable = SDL_GetNumTouchDevices() > 0;
 
+	std::cout << "Touch enabled: " << (this->__isTouchAvailable ? "YES" : "NO") << std::endl;
+
 #if __EMSCRIPTEN__
 	emscripten_set_main_loop_arg(GameEmscriptenLoopThunk, this, 0, 1);
 #else

@@ -31,6 +31,8 @@ private:
 	SDL_Texture* promptTextTexture;
 	int promptTextWidth;
 	int promptTextHeight;
+	double promptBlinkTime;
+	bool blinkPrompt;
 public:
 	Menu();
 	~Menu();

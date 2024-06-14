@@ -33,6 +33,8 @@ Menu::Menu()
 	this->copyrightTextHeight = 0;
 	this->promptTextWidth = 0;
 	this->promptTextHeight = 0;
+	this->promptBlinkTime = 0.0;
+	this->blinkPrompt = false;
 
 	// get the wall texture
 	this->wallTexture = Assets::getTexture(BRICK_WALL);
@@ -91,7 +93,13 @@ void Menu::handleInput(SDL_Event& e)
 
 void Menu::update(double deltaTime)
 {
-	// nothing to do here yet
+	this->promptBlinkTime += deltaTime;
+
+	if (this->promptBlinkTime >= PROMPT_TEXT_BLINK_TIME)
+	{
+		this->blinkPrompt = !this->blinkPrompt;
+		this->promptBlinkTime = 0.0;
+	}
 }
 
 void Menu::render(SDL_Renderer* renderer)
@@ -150,7 +158,7 @@ void Menu::render(SDL_Renderer* renderer)
 	if (!this->promptTextTexture)
 	{
 		// create the text texture
-		this->promptTextTexture = renderTextWithOutline(renderer, "Press Enter to Play");
+		this->promptTextTexture = renderTextWithOutline(renderer, Game::get()->isTouchAvailable() ? PROMPT_TEXT_TOUCH_ENABLED : PROMPT_TEXT_DESKTOP);
 
 		// get the width and height of the texture
 		SDL_QueryTexture(this->promptTextTexture, NULL, NULL, &this->promptTextWidth, &this->promptTextHeight);
@@ -172,5 +180,9 @@ void Menu::render(SDL_Renderer* renderer)
 	SDL_RenderCopy(renderer, this->wallTexture, NULL, &wallDestRect);
 	SDL_RenderCopy(renderer, this->titleTextTexture, NULL, &titleDestRect);
 	SDL_RenderCopy(renderer, this->copyrightTextTexture, NULL, &copyrightDestRect);
-	SDL_RenderCopy(renderer, this->promptTextTexture, NULL, &promptDestRect);
+
+	if (!this->blinkPrompt)
+	{
+		SDL_RenderCopy(renderer, this->promptTextTexture, NULL, &promptDestRect);
+	}
 }
