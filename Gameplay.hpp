@@ -28,8 +28,12 @@ private:
 	BadGuy* badGuy;
 	SDL_Texture* wallTexture;
 	unsigned int score;
+	unsigned int highScore;
 	std::vector<Bomb*> bombs;
 	PauseScreen* pauseScreen;
+	SDL_Texture* scoreTexture;
+	SDL_Texture* highScoreTexture;
+	bool needsToUpdateScoreTexture;
 public:
 	Gameplay();
 	~Gameplay();

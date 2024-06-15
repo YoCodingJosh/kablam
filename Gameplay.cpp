@@ -26,6 +26,10 @@ Gameplay::Gameplay()
 	, badGuy(nullptr)
 	, isPaused(false)
 	, pauseScreen(nullptr)
+	, highScore(0)
+	, scoreTexture(nullptr)
+	, highScoreTexture(nullptr)
+	, needsToUpdateScoreTexture(false)
 {
 	this->wallTexture = Assets::getTexture(BRICK_WALL);
 
@@ -39,7 +43,7 @@ Gameplay::Gameplay()
 
 	this->pauseScreen = new PauseScreen();
 
-	this->score = 0;
+	this->highScore = 0; // TODO: fetch
 
 	this->badGuy = new BadGuy();
 
@@ -69,6 +73,18 @@ Gameplay::~Gameplay()
 	{
 		delete this->pauseScreen;
 		this->pauseScreen = nullptr;
+	}
+
+	if (this->highScoreTexture)
+	{
+		SDL_DestroyTexture(this->highScoreTexture);
+		this->highScoreTexture = nullptr;
+	}
+
+	if (this->scoreTexture)
+	{
+		SDL_DestroyTexture(this->scoreTexture);
+		this->scoreTexture = nullptr;
 	}
 
 	// We don't need to destroy the wall texture because it is managed by the Assets class.
@@ -147,6 +163,20 @@ void Gameplay::render(SDL_Renderer* renderer)
 
 		SDL_RenderCopy(renderer, this->wallTexture, nullptr, &wallRect);
 	}
+
+	if (!this->scoreTexture || this->needsToUpdateScoreTexture)
+	{
+
+	}
+
+	// TODO: Render score texture
+
+	if (!this->highScoreTexture)
+	{
+	}
+
+	// TODO: Render high score texture
+
 
 	if (this->badGuy)
 	{

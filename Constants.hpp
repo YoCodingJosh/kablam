@@ -18,6 +18,7 @@ constexpr auto SCREEN_WIDTH = 1280;
 constexpr auto SCREEN_HEIGHT = 960;
 
 constexpr auto SCORE_TEXT = "Score: ";
+constexpr auto HIGH_SCORE_TEXT = "High Score: ";
 
 constexpr auto PROMPT_TEXT_DESKTOP = "Press Enter or Click to Play";
 constexpr auto PROMPT_TEXT_TOUCH_ENABLED = "Press Enter or Touch/Click to Play";
