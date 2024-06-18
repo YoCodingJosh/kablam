@@ -58,3 +58,5 @@ constexpr auto BOMB_FALL_SPEED = 64;
 
 constexpr auto PAUSED_SCREEN_TEXT = "PAUSED";
 constexpr auto PAUSED_SCREEN_TEXT_LENGTH = constexpr_strlen(PAUSED_SCREEN_TEXT);
+
+constexpr auto PLAYER_MAX_LIVES = 3;

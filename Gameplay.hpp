@@ -34,6 +34,10 @@ private:
 	SDL_Texture* scoreTexture;
 	SDL_Texture* highScoreTexture;
 	bool needsToUpdateScoreTexture;
+	int scoreTextureWidth;
+	int scoreTextureHeight;
+	int highScoreTextureWidth;
+	int highScoreTextureHeight;
 public:
 	Gameplay();
 	~Gameplay();

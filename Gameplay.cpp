@@ -30,6 +30,8 @@ Gameplay::Gameplay()
 	, scoreTexture(nullptr)
 	, highScoreTexture(nullptr)
 	, needsToUpdateScoreTexture(false)
+	, scoreTextureWidth(0), scoreTextureHeight(0)
+	, highScoreTextureWidth(0), highScoreTextureHeight(0)
 {
 	this->wallTexture = Assets::getTexture(BRICK_WALL);
 
@@ -166,17 +168,33 @@ void Gameplay::render(SDL_Renderer* renderer)
 
 	if (!this->scoreTexture || this->needsToUpdateScoreTexture)
 	{
+		// get the font
+		TTF_Font* font = Assets::getDefaultFont();
 
+		std::string scoreText = SCORE_TEXT + std::to_string(this->score);
+
+		// create the text surface
+		SDL_Surface* scoreTextSurface = TTF_RenderText_Blended(font, scoreText.c_str(), {255, 255, 255, 255});
+
+		// create the texture
+		this->scoreTexture = SDL_CreateTextureFromSurface(renderer, scoreTextSurface);
+
+		// free the surface
+		SDL_FreeSurface(scoreTextSurface);
+
+		// get the width and height of the texture
+		SDL_QueryTexture(this->scoreTexture, NULL, NULL, &this->scoreTextureWidth, &this->scoreTextureHeight);
 	}
 
-	// TODO: Render score texture
+	SDL_Rect scoreTextRect = { 10, 5, this->scoreTextureWidth, this->scoreTextureHeight };
+
+	SDL_RenderCopy(renderer, this->scoreTexture, NULL, &scoreTextRect);
 
 	if (!this->highScoreTexture)
 	{
 	}
 
 	// TODO: Render high score texture
-
 
 	if (this->badGuy)
 	{

@@ -145,6 +145,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="PauseScreen.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Utility.cpp" />
     <ClCompile Include="WindowsGPU.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="GameState.hpp" />
     <ClInclude Include="Menu.hpp" />
     <ClInclude Include="PauseScreen.hpp" />
+    <ClInclude Include="Player.hpp" />
     <ClInclude Include="Timer.hpp" />
     <ClInclude Include="Utility.hpp" />
   </ItemGroup>
